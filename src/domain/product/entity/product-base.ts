@@ -1,11 +1,13 @@
+import Entity from "../../@shared/entity/entity.abstract";
 import ProductInterface from "./product.interface";
 
-export default abstract class ProductBase implements ProductInterface {
+export default abstract class ProductBase extends Entity implements ProductInterface {
   protected _id: string;
   protected _name: string;
   protected _price: number;
 
   constructor(id: string, name: string, price: number) {
+    super();
     this._id = id;
     this._name = name;
     this._price = price;
@@ -34,15 +36,32 @@ export default abstract class ProductBase implements ProductInterface {
     this.validate();
   }
 
-  validate(): boolean {
+  checkProps(): void {
     if (this._id.length === 0) {
-      throw new Error("Id is required");
+      this.notification.addError({
+        context: "product",
+        message: "Id is required"
+      });
     }
     if (this._name.length === 0) {
-      throw new Error("Name is required");
+      this.notification.addError({
+        context: "product",
+        message: "Name is required"
+      });
     }
     if (this._price < 0) {
-      throw new Error("Price must be greater than zero");
+      this.notification.addError({
+        context: "product",
+        message: "Price must be greater than zero"
+      });
+    }
+
+  }
+
+  validate(): boolean {
+    this.checkProps()
+    if(this.notification.hasErrors()) {
+      throw new Error(this.notification.messages("product"))
     }
     return true;
   }

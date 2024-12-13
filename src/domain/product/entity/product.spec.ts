@@ -19,6 +19,12 @@ describe("Product unit tests", () => {
     }).toThrowError("Price must be greater than zero");
   });
 
+  it("should show multiple errors for invalid data", () => {
+    expect(() => {
+      const product = new Product("", "", -1);
+    }).toThrowError("product: Id is required,product: Name is required,product: Price must be greater than zero,");
+  });
+  
   it("should change name", () => {
     const product = new Product("123", "Product 1", 100);
     product.changeName("Product 2");
