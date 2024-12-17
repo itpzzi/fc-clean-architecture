@@ -22,7 +22,7 @@ describe("Product unit tests", () => {
   it("should show multiple errors for invalid data", () => {
     expect(() => {
       const product = new Product("", "", -1);
-    }).toThrowError("product: Id is required,product: Name is required,product: Price must be greater than zero,");
+    }).toThrowError("product: Id is required,product: Name is required,product: Price must be greater than zero");
   });
   
   it("should change name", () => {
